@@ -1,0 +1,9 @@
+target/
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+
+# env (DB password 등)
+application-local.yml

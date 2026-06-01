@@ -1,0 +1,17 @@
+# HIS 백엔드 공통 설정
+server:
+  port: 8081  # 프론트 Axios baseURL과 맞출 것
+
+spring:
+  datasource:
+    # Oracle XE — SQLGate 접속: hospital@localhost:1521:XE
+    # 운영/로컬 분리 시 application-local.yml 사용 권장
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: hospital
+    password: "1111"
+    driver-class-name: oracle.jdbc.OracleDriver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  # src/main/resources/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true      # MENU_ID → menuId 자동 변환

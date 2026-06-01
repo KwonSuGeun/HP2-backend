@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- com.hospital.menu.MenuMapper 인터페이스와 1:1 매핑 -->
+<mapper namespace="com.hospital.menu.MenuMapper">
+
+    <!-- CMH.AUTH_MENU: 사용 중(IS_ACTIVE='Y') 메뉴만 조회 -->
+    <select id="selectAllMenus" resultType="com.hospital.menu.Menu">
+        SELECT
+            MENU_ID     AS id,
+            PARENT_ID   AS parentId,
+            CODE        AS code,
+            NAME        AS name,
+            PATH        AS path,
+            ICON        AS icon,
+            SORT_ORDER  AS sortOrder
+        FROM CMH.AUTH_MENU
+        WHERE IS_ACTIVE = 'Y'
+        ORDER BY SORT_ORDER
+    </select>
+
+</mapper>
