@@ -2,11 +2,11 @@
 
 SELECT column_name, data_type, nullable
 FROM all_tab_columns
-WHERE owner = 'CMH'
+WHERE owner = 'HOSPITAL'
   AND table_name = 'AUTH_MENU'
 ORDER BY column_id;
 
 SELECT *
-FROM CMH.AUTH_MENU
+FROM HOSPITAL.AUTH_MENU
 WHERE IS_ACTIVE = 'Y'
 ORDER BY SORT_ORDER;

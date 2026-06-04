@@ -2,10 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- com.hospital.menu.MenuMapper 인터페이스와 1:1 매핑 -->
+<!--
+  MenuMapper.java selectAllMenus() 와 namespace 1:1 매핑.
+
+  [반환] List<Menu> — 평면 목록 (트리 아님)
+  [테이블] CMH.AUTH_MENU
+  [조건] IS_ACTIVE = 'Y' — 사용 중인 메뉴만
+
+  [DB row 예]
+  MENU_ID=2, PARENT_ID=NULL, NAME='환자 관리'  → Menu(id=2, parentId=null)
+  MENU_ID=3, PARENT_ID=2,   NAME='환자 목록'    → Menu(id=3, parentId=2)
+  → MenuService.buildTree() 가 parentId 로 children[] 구성
+-->
 <mapper namespace="com.hospital.menu.MenuMapper">
 
-    <!-- CMH.AUTH_MENU: 사용 중(IS_ACTIVE='Y') 메뉴만 조회 -->
     <select id="selectAllMenus" resultType="com.hospital.menu.Menu">
         SELECT
             MENU_ID     AS id,
@@ -15,9 +25,10 @@
             PATH        AS path,
             ICON        AS icon,
             SORT_ORDER  AS sortOrder
-        FROM CMH.AUTH_MENU
+        FROM HOSPITAL.AUTH_MENU
         WHERE IS_ACTIVE = 'Y'
         ORDER BY SORT_ORDER
     </select>
 
 </mapper>
+

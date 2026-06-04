@@ -4,10 +4,27 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
 
-/** DB에서 조회한 평면 메뉴 목록을 계층 트리로 변환하는 서비스 */
+/**
+ * DB 평면 메뉴 목록 → API용 계층 트리 변환 (Map 2-pass, 재귀 없음).
+ *
+ * <p>[데이터 변환 흐름]
+ * <ol>
+ *   <li>menuMapper.selectAllMenus() → List&lt;Menu&gt; (평면, parentId 포함)</li>
+ *   <li>1pass: id → MenuNodeDto Map 생성</li>
+ *   <li>2pass: parentId 보고 루트 또는 부모.children 에 연결</li>
+ *   <li>sortOrder 로 형제 메뉴 정렬</li>
+ * </ol>
+ *
+ * <p>[평면 DB row 예]
+ * <pre>
+ * id=2, parentId=null  → "환자 관리" (루트)
+ * id=3, parentId=2     → "환자 목록" (id=2 의 자식)
+ * </pre>
+ */
 @Service
 public class MenuService {
 
@@ -19,30 +36,48 @@ public class MenuService {
 
     /** 활성 메뉴 전체를 트리 구조로 반환 */
     public List<MenuNodeDto> getMenuTree() {
-        return buildTree(menuMapper.selectAllMenus(), null);
+        return buildTreeFromFlatList(menuMapper.selectAllMenus());
     }
 
     /**
-     * parentId에 해당하는 자식 메뉴를 재귀적으로 찾아 트리를 구성한다.
-     * parentId가 null이면 최상위 루트 메뉴부터 시작한다.
+     * 평면 List&lt;Menu&gt; → 루트 MenuNodeDto 리스트 (children 중첩).
+     *
+     * <p>1pass — 모든 row 를 DTO 로 만들어 Map(id → node) 에 저장
+     * <p>2pass — parentId == null 이면 roots, 아니면 map.get(parentId).children.add(node)
      */
-    private List<MenuNodeDto> buildTree(List<Menu> flatList, Long parentId) {
-        List<MenuNodeDto> result = new ArrayList<>();
+    private List<MenuNodeDto> buildTreeFromFlatList(List<Menu> flatList) {
+        Map<Long, MenuNodeDto> nodeById = new HashMap<>();
+        Map<Long, Integer> sortOrderById = new HashMap<>();
+        List<MenuNodeDto> roots = new ArrayList<>();
 
-        flatList.stream()
-                .filter(menu -> Objects.equals(menu.getParentId(), parentId))
-                .sorted(Comparator.comparing(
-                        menu -> menu.getSortOrder() != null ? menu.getSortOrder() : 0))
-                .forEach(menu -> {
-                    MenuNodeDto node = toDto(menu);
-                    node.setChildren(buildTree(flatList, menu.getId()));
-                    result.add(node);
-                });
+        for (Menu menu : flatList) {
+            nodeById.put(menu.getId(), toDto(menu));
+            sortOrderById.put(menu.getId(), menu.getSortOrder() != null ? menu.getSortOrder() : 0);
+        }
 
-        return result;
+        for (Menu menu : flatList) {
+            MenuNodeDto node = nodeById.get(menu.getId());
+            if (menu.getParentId() == null) {
+                roots.add(node);
+                continue;
+            }
+            MenuNodeDto parent = nodeById.get(menu.getParentId());
+            if (parent != null) {
+                parent.getChildren().add(node);
+            }
+        }
+
+        Comparator<MenuNodeDto> bySortOrder = Comparator.comparing(
+                node -> sortOrderById.getOrDefault(node.getId(), 0));
+        roots.sort(bySortOrder);
+        for (MenuNodeDto node : nodeById.values()) {
+            node.getChildren().sort(bySortOrder);
+        }
+
+        return roots;
     }
 
-    /** 트리 응답용 DTO로 변환 (parentId, sortOrder 제외) */
+    /** Menu → MenuNodeDto (parentId, sortOrder 는 응답 JSON 에 포함하지 않음) */
     private MenuNodeDto toDto(Menu menu) {
         MenuNodeDto dto = new MenuNodeDto();
         dto.setId(menu.getId());

@@ -9,13 +9,17 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * 프론트엔드(localhost:3000) ↔ 백엔드(8081) 간 CORS 설정.
- * registry와 CorsFilter를 함께 등록해 preflight(OPTIONS) 요청도 처리한다.
+ * 프론트(localhost:3000) → 백엔드(8081) cross-origin 요청 허용.
+ *
+ * <p>SidebarApi 가 브라우저에서 직접 GET http://localhost:8081/api/menus 호출하므로 필수.
+ * Next.js proxy 없음 — Origin: http://localhost:3000 헤더가 붙음.
+ *
+ * <p>addCorsMappings (MVC) + corsFilter (Servlet) 이중 등록 → OPTIONS preflight 포함.
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    /** Spring MVC 레벨 CORS — /api/** 경로에 적용 */
+    /** /api/** 경로에 localhost:3000 origin 허용 */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
@@ -25,7 +29,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .maxAge(3600);
     }
 
-    /** Servlet Filter 레벨 CORS — MVC 설정과 동일 origin 허용 */
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();

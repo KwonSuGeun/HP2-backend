@@ -4,23 +4,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * API 응답용 메뉴 트리 노드 DTO.
- * DB 엔티티({@link Menu})를 프론트엔드에 맞게 변환한 형태이며,
- * parentId·sortOrder는 트리 구성 후 응답에서 제외한다.
+ * GET /api/menus JSON 응답 1노드 — 프론트 SidebarItem 과 필드 1:1 대응.
+ *
+ * <p>Menu 대비 parentId, sortOrder 없음 (트리 구성 후 제거).
+ *
+ * <p>[JSON 필드]
+ * <ul>
+ *   <li>id, code, name, path, icon</li>
+ *   <li>children — List&lt;MenuNodeDto&gt; 재귀. leaf 는 빈 배열 []</li>
+ * </ul>
+ *
+ * <p>[JSON 예 — leaf]
+ * <pre>
+ * { "id":3, "code":"PATIENT_LIST", "name":"환자 목록",
+ *   "path":"/patients", "icon":null, "children":[] }
+ * </pre>
+ *
+ * <p>[JSON 예 — 그룹(자식 있음)]
+ * <pre>
+ * { "id":2, "code":"PATIENT", "name":"환자 관리", "path":null,
+ *   "icon":"People", "children":[ { ... } ] }
+ * </pre>
  */
 public class MenuNodeDto {
 
-    /** 메뉴 고유 ID (AUTH_MENU.MENU_ID) */
     private Long id;
-    /** 메뉴 코드 (권한·라우팅 식별용) */
     private String code;
-    /** 화면에 표시할 메뉴명 */
     private String name;
-    /** 프론트 라우트 경로 (예: /dashboard) */
     private String path;
-    /** 아이콘 식별자 (프론트 아이콘 컴포넌트와 매핑) */
     private String icon;
-    /** 하위 메뉴 목록. leaf 노드는 빈 리스트 */
+    /** 하위 메뉴. buildTree() 재귀 결과. leaf 는 new ArrayList&lt;&gt;() */
     private List<MenuNodeDto> children = new ArrayList<>();
 
     public Long getId() {

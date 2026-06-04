@@ -1,24 +1,36 @@
 package com.hospital.menu;
 
 /**
- * CMH.AUTH_MENU 테이블 매핑 엔티티.
- * MyBatis가 {@link com.hospital.menu.MenuMapper} 쿼리 결과를 이 타입으로 변환한다.
+ * CMH.AUTH_MENU 테이블 ↔ MyBatis resultType 매핑 엔티티.
+ *
+ * <p>DB 조회 직후·buildTree() 입력 단계에서 사용.
+ * API JSON 으로는 MenuNodeDto 가 내려가며, parentId/sortOrder 는 응답에서 제외됨.
+ *
+ * <p>[DB 컬럼 ↔ 필드]
+ * <ul>
+ *   <li>MENU_ID    → id</li>
+ *   <li>PARENT_ID  → parentId (null = 최상위)</li>
+ *   <li>CODE, NAME, PATH, ICON</li>
+ *   <li>SORT_ORDER → sortOrder (형제 간 정렬, buildTree 시 사용)</li>
+ * </ul>
+ *
+ * <p>[평면 row 예]
+ * id=3, parentId=2, name="환자 목록", path="/patients"
+ * → buildTree 후 MenuNodeDto(id=3) 가 MenuNodeDto(id=2).children[] 안에 들어감
  */
 public class Menu {
 
-    /** MENU_ID */
+    /** MENU_ID — 프론트 SidebarItem.id 와 동일 */
     private Long id;
-    /** 메뉴 코드 */
     private String code;
-    /** 메뉴명 */
     private String name;
-    /** 프론트 라우트 경로 */
+    /** 프론트 Link href. 그룹 메뉴는 null 일 수 있음 */
     private String path;
-    /** 아이콘 식별자 */
+    /** 프론트 SidebarIcons 맵 키 문자열 */
     private String icon;
-    /** PARENT_ID. null이면 최상위 메뉴 */
+    /** PARENT_ID. null 이면 루트. buildTree 필터 조건 */
     private Long parentId;
-    /** SORT_ORDER. 형제 메뉴 간 정렬 순서 */
+    /** SORT_ORDER. buildTree 시 형제 노드 정렬용 */
     private Integer sortOrder;
 
     public Long getId() {

@@ -1,17 +1,20 @@
-# HIS 백엔드 공통 설정
+# HIS 백엔드 공통 설정 — 사이드바 API 관련 항목
+
+# 프론트 Axios.ts baseURL 과 동일 포트 (http://localhost:8081)
 server:
-  port: 8081  # 프론트 Axios baseURL과 맞출 것
+  port: 8081
 
 spring:
   datasource:
-    # Oracle XE — SQLGate 접속: hospital@localhost:1521:XE
-    # 운영/로컬 분리 시 application-local.yml 사용 권장
+    # Oracle XE — MenuMapper.xml 이 HOSPITAL.CMH_AUTH_MENU 조회
     url: jdbc:oracle:thin:@localhost:1521:XE
     username: hospital
     password: "1111"
     driver-class-name: oracle.jdbc.OracleDriver
 
 mybatis:
-  mapper-locations: classpath:mapper/*.xml  # src/main/resources/mapper/*.xml
+  # MenuMapper.xml 위치 — selectAllMenus SQL
+  mapper-locations: classpath:mapper/*.xml
   configuration:
-    map-underscore-to-camel-case: true      # MENU_ID → menuId 자동 변환
+    # DB MENU_ID → Java id 등 camelCase 자동 매핑
+    map-underscore-to-camel-case: true
