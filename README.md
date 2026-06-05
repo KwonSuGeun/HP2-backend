@@ -29,11 +29,24 @@ username: hospital
 password: "1111"
 ```
 
+## 패키지 구조
+
+```
+com.hospital
+├── controller/     REST API (MenuController)
+├── service/        서비스 인터페이스 (MenuService)
+├── service/impl/   서비스 구현 (MenuServiceImpl)
+├── mapper/         MyBatis 매퍼 (MenuMapper)
+├── entity/         DB 엔티티 (Menu)
+├── dto/            API 응답 DTO (MenuNodeDto)
+└── config/         WebConfig 등
+```
+
 ## MyBatis SQL
 
 | 파일 | 내용 |
 |------|------|
-| `src/main/resources/mapper/MenuMapper.xml` | `CMH.AUTH_MENU` SELECT |
+| `src/main/resources/mapper/MenuMapper.xml` | `HOSPITAL.AUTH_MENU` SELECT |
 | `sql/check-menu-table.sql` | SQLGate 확인용 |
 
 ## IntelliJ

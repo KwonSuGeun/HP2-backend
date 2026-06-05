@@ -6,17 +6,17 @@
   MenuMapper.java selectAllMenus() 와 namespace 1:1 매핑.
 
   [반환] List<Menu> — 평면 목록 (트리 아님)
-  [테이블] CMH.AUTH_MENU
+  [테이블] HOSPITAL.AUTH_MENU
   [조건] IS_ACTIVE = 'Y' — 사용 중인 메뉴만
 
   [DB row 예]
   MENU_ID=2, PARENT_ID=NULL, NAME='환자 관리'  → Menu(id=2, parentId=null)
   MENU_ID=3, PARENT_ID=2,   NAME='환자 목록'    → Menu(id=3, parentId=2)
-  → MenuService.buildTree() 가 parentId 로 children[] 구성
+  → MenuServiceImpl 이 parentId 로 children[] 구성
 -->
-<mapper namespace="com.hospital.menu.MenuMapper">
+<mapper namespace="com.hospital.mapper.MenuMapper">
 
-    <select id="selectAllMenus" resultType="com.hospital.menu.Menu">
+    <select id="selectAllMenus" resultType="com.hospital.entity.Menu">
         SELECT
             MENU_ID     AS id,
             PARENT_ID   AS parentId,

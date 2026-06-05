@@ -13,10 +13,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *   <li>@MapperScan → MenuMapper 인터페이스 + MenuMapper.xml 연결</li>
  * </ul>
  *
- * <p>사이드바 API: GET http://localhost:8081/api/menus → MenuController
+ * <p>사이드바 API: GET http://localhost:8081/api/menus → controller.MenuController
  */
 @SpringBootApplication
-@MapperScan("com.hospital.menu")
+@MapperScan("com.hospital.mapper")
 public class HospitalApplication {
 
     public static void main(String[] args) {
