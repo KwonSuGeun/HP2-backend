@@ -6,11 +6,18 @@ server:
 
 spring:
   datasource:
-    # Oracle XE — MenuMapper.xml 이 HOSPITAL.CMH_AUTH_MENU 조회
+    # Oracle XE — Menu(MyBatis), Staff(JPA) 공용
     url: jdbc:oracle:thin:@localhost:1521:XE
     username: hospital
     password: "1111"
     driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 mybatis:
   # MenuMapper.xml 위치 — selectAllMenus SQL

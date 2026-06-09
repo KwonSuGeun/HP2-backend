@@ -21,7 +21,8 @@ mvn spring-boot:run
 
 ## DB 설정
 
-`src/main/resources/application.yml`
+`src/main/resources/application.yml`  
+SQLGate 접속: [docs/sqlgate-setup.md](docs/sqlgate-setup.md)
 
 ```yaml
 url: jdbc:oracle:thin:@localhost:1521:XE

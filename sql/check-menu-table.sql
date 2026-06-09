@@ -1,4 +1,4 @@
--- CMH.AUTH_MENU 테이블 확인용 (SQLGate)
+-- HOSPITAL.AUTH_MENU 테이블 확인용 (SQLGate)
 
 SELECT column_name, data_type, nullable
 FROM all_tab_columns
