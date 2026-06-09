@@ -23,4 +23,5 @@ public class StaffRegisterRequest {
     private LocalDate staffHireDate;
     private LocalDate staffBirthDate;
     private String staffLicenseNo;
+    private String staffAddress;
 }

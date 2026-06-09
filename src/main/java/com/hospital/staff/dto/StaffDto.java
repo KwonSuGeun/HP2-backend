@@ -13,5 +13,6 @@ public class StaffDto {
     private String staffDepartmentName;
     private String staffRankCode;
     private String staffPhone;
+    private String staffAddress;
     private String staffStatus;
 }

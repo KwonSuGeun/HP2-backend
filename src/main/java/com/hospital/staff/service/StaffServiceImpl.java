@@ -74,6 +74,7 @@ public class StaffServiceImpl implements StaffService {
         staff.setStaffHireDate(request.getStaffHireDate());
         staff.setStaffBirthDate(request.getStaffBirthDate());
         staff.setStaffLicenseNo(request.getStaffLicenseNo());
+        staff.setStaffAddress(request.getStaffAddress());
         staff.setStaffStatus("ACTIVE");
 
         staffRepository.save(staff);
@@ -95,6 +96,7 @@ public class StaffServiceImpl implements StaffService {
         dto.setStaffDepartmentName(departmentName);
         dto.setStaffRankCode(staff.getStaffRankCode());
         dto.setStaffPhone(staff.getStaffPhone());
+        dto.setStaffAddress(staff.getStaffAddress());
         dto.setStaffStatus(staff.getStaffStatus());
         return dto;
     }

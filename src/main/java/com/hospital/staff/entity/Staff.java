@@ -60,4 +60,7 @@ public class Staff {
 
     @Column(name = "STAFF_LICENSE_NO")
     private String staffLicenseNo;
+
+    @Column(name = "STAFF_ADDRESS")
+    private String staffAddress;
 }
