@@ -12,8 +12,11 @@ public class StaffRegisterRequest {
     private String staffId;
     private String staffPassword;
     private String staffName;
+    /** 직군: DOC(의사), NUR(간호), ADM(행정) */
     private String staffType;
+    /** 미입력 시 staffType으로 자동 매핑 */
     private String staffRoleCode;
+    /** 부서 ID (예: DEPT001) — DEPARTMENT_NAME 아님 */
     private String staffDepartmentId;
     private String staffRankCode;
     private String staffPositionCode;
@@ -22,6 +25,12 @@ public class StaffRegisterRequest {
     private String staffEmail;
     private LocalDate staffHireDate;
     private LocalDate staffBirthDate;
+    /** 의사/간호사(DOC, NUR)일 때 필수 */
     private String staffLicenseNo;
-    private String staffAddress;
+    /** 우편번호 */
+    private String addressZipCode;
+    /** 기본주소 */
+    private String addressBase;
+    /** 상세주소 */
+    private String addressDetail;
 }

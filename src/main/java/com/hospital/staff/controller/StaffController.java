@@ -17,6 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * 직원 관리 API.
+ * <ul>
+ *   <li>조회: 목록 검색, 단건, 부서 마스터</li>
+ *   <li>등록: 신규 직원 INSERT</li>
+ * </ul>
+ */
 @RestController
 @RequestMapping("/admin/staff")
 @CrossOrigin(originPatterns = {"http://localhost:3000", "http://127.0.0.1:3000"})
@@ -28,10 +35,10 @@ public class StaffController {
     /** 직원 목록 조회 — 검색 조건은 RequestBody */
     @PostMapping("/search")
     public ApiResponse<List<StaffDto>> searchStaffList(@RequestBody StaffListRequest request) {
-        return ApiResponse.success(staffService.getStaffList(request));
+        return ApiResponse.success(staffService.searchStaffList(request));
     }
 
-    /** 부서 목록 조회 — /{staffId} 보다 위에 둠 */
+    /** 부서 목록 조회 (등록 폼 드롭다운) — {@code /{staffId}} 보다 위에 둠 */
     @GetMapping("/departments")
     public ApiResponse<List<DepartmentDto>> getDepartmentList() {
         return ApiResponse.success(staffService.getDepartmentList());

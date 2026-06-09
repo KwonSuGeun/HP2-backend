@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface StaffService {
 
-    List<StaffDto> getStaffList(StaffListRequest request);
+    List<StaffDto> searchStaffList(StaffListRequest request);
 
     StaffDto getStaffById(String staffId);
 
