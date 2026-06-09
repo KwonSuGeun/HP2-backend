@@ -28,10 +28,12 @@ public class StaffController {
 
     @GetMapping
     public ApiResponse<List<StaffDto>> getStaffList(
+            @RequestParam(required = false) String staffId,
             @RequestParam(required = false) String dept,
             @RequestParam(required = false) String staffRankCode,
             @RequestParam(required = false) String keyword) {
         StaffListRequest request = new StaffListRequest();
+        request.setStaffId(staffId);
         request.setDept(dept);
         request.setStaffRankCode(staffRankCode);
         request.setKeyword(keyword);

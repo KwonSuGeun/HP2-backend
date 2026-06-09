@@ -28,6 +28,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public List<StaffDto> getStaffList(StaffListRequest request) {
         return staffRepository.searchStaffList(
+                        request.getStaffId(),
                         request.getDept(),
                         request.getStaffRankCode(),
                         request.getKeyword())
@@ -38,7 +39,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public StaffDto getStaffById(String staffId) {
-        Staff staff = staffRepository.findByStaffIdAndStaffStatus(staffId, "ACTIVE")
+        Staff staff = staffRepository.findById(staffId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.STAFF_NOT_FOUND));
         return toDto(staff, null);
     }

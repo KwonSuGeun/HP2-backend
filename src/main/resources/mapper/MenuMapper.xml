@@ -14,9 +14,9 @@
   MENU_ID=3, PARENT_ID=2,   NAME='환자 목록'    → Menu(id=3, parentId=2)
   → MenuServiceImpl 이 parentId 로 children[] 구성
 -->
-<mapper namespace="com.hospital.mapper.MenuMapper">
+<mapper namespace="com.hospital.menu.mapper.MenuMapper">
 
-    <select id="selectAllMenus" resultType="com.hospital.entity.Menu">
+    <select id="selectAllMenus" resultType="com.hospital.menu.entity.Menu">
         SELECT
             MENU_ID     AS id,
             PARENT_ID   AS parentId,
