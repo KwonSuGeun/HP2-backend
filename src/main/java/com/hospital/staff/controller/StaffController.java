@@ -49,7 +49,7 @@ public class StaffController {
     }
 
     /** 직원 삭제 */
-    @DeleteMapping(/"{staffId}")
+    @DeleteMapping("/{staffId}")
     public ApiResponse<Void> deleteStaff(@PathVariable String staffId) {
         staffService.deleteStaff(staffId);
         return ApiResponse.success(null);
