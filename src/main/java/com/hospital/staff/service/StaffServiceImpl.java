@@ -61,7 +61,7 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    @Transactional
+    @Transactional // save or delete or update 가 필요한 메서드 일때 만 사용 읽기전용 메서드에는 붙이지 않는게 좋음
     public void registerStaff(StaffRegisterRequest request) {
         validateRegisterRequest(request);
 
@@ -83,6 +83,15 @@ public class StaffServiceImpl implements StaffService {
                 .stream()
                 .map(this::toDepartmentDto)
                 .toList();
+    }
+
+    @Override
+    @Transactional
+    public void deleteStaff(String staffId) {
+        if (!staffRepository.existsById(staffId)) {
+            throw new BusinessException(ErrorCode.STAFF_NOT_FOUND);
+        }
+        staffRepository.deleteById(staffId);
     }
 
     private void validateRegisterRequest(StaffRegisterRequest request) {

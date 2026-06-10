@@ -16,4 +16,6 @@ public interface StaffService {
     void registerStaff(StaffRegisterRequest request);
 
     List<DepartmentDto> getDepartmentList();
+
+    void deleteStaff(String staffId);
 }

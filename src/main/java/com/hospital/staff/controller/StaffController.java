@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
 import java.util.List;
 
 /**
@@ -46,6 +46,13 @@ public class StaffController {
     @GetMapping("/{staffId}")
     public ApiResponse<StaffDto> getStaffById(@PathVariable String staffId) {
         return ApiResponse.success(staffService.getStaffById(staffId));
+    }
+
+    /** 직원 삭제 */
+    @DeleteMapping(/"{staffId}")
+    public ApiResponse<Void> deleteStaff(@PathVariable String staffId) {
+        staffService.deleteStaff(staffId);
+        return ApiResponse.success(null);
     }
 
     /** 신규 직원 등록 */
