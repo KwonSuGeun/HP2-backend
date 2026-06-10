@@ -1,13 +1,31 @@
-# HIS 백엔드 공통 설정 — 사이드바 API 관련 항목
+# ============================================================
+# HIS 백엔드 팀 공통 설정 (Git 커밋용)
+# 개인 PC만 다른 값이 필요하면 application-local.yml 사용
+# ============================================================
 
-# 프론트 Axios.ts baseURL 과 동일 포트 (http://localhost:8081)
 server:
   port: 8081
 
+app:
+  # 프론트 .env.local 의 NEXT_PUBLIC_API_URL 과 동일하게 맞출 것
+  api:
+    host: localhost
+    port: ${server.port}
+    base-url: http://${app.api.host}:${server.port}
+    endpoints:
+      menus: /api/menus
+      staff: /admin/staff
+
+  # 프론트 Next.js 개발 서버 (CORS 허용 Origin)
+  cors:
+    allowed-origin-patterns:
+      - http://localhost:3000
+      - http://127.0.0.1:3000
+
 spring:
   datasource:
-    # Oracle XE — Menu(MyBatis), Staff(JPA) 공용
-    url: jdbc:oracle:thin:@localhost:1521:XE
+    # Oracle XE — Menu(MyBatis), Staff(JPA) 공용 (팀 공용 DB 서버)
+    url: jdbc:oracle:thin:@192.168.1.128:1521:XE
     username: hospital
     password: "1111"
     driver-class-name: oracle.jdbc.OracleDriver
@@ -20,8 +38,6 @@ spring:
         format_sql: true
 
 mybatis:
-  # MenuMapper.xml 위치 — selectAllMenus SQL
   mapper-locations: classpath:mapper/*.xml
   configuration:
-    # DB MENU_ID → Java id 등 camelCase 자동 매핑
     map-underscore-to-camel-case: true

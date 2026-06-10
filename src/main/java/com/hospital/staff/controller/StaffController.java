@@ -7,7 +7,6 @@ import com.hospital.staff.dto.StaffListRequest;
 import com.hospital.staff.dto.StaffRegisterRequest;
 import com.hospital.staff.service.StaffService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +25,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/admin/staff")
-@CrossOrigin(originPatterns = {"http://localhost:3000", "http://127.0.0.1:3000"})
 @RequiredArgsConstructor
 public class StaffController {
 
