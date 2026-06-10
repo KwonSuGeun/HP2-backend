@@ -159,12 +159,20 @@ public class StaffServiceImpl implements StaffService {
         StaffDto dto = new StaffDto();
         dto.setStaffId(staff.getStaffId());
         dto.setStaffName(staff.getStaffName());
+        dto.setStaffType(staff.getStaffType());
+        dto.setStaffRoleCode(staff.getStaffRoleCode());
         dto.setStaffDepartmentId(staff.getStaffDepartmentId());
         dto.setStaffDepartmentName(departmentName);
         dto.setStaffRankCode(staff.getStaffRankCode());
+        dto.setStaffPositionCode(staff.getStaffPositionCode());
         dto.setStaffPhone(staff.getStaffPhone());
-        dto.setStaffAddress(staff.getStaffAddress());
+        dto.setStaffExtensionNo(staff.getStaffExtensionNo());
+        dto.setStaffEmail(staff.getStaffEmail());
+        dto.setStaffHireDate(staff.getStaffHireDate());
         dto.setStaffStatus(staff.getStaffStatus());
+        dto.setStaffBirthDate(staff.getStaffBirthDate());
+        dto.setStaffLicenseNo(staff.getStaffLicenseNo());
+        dto.setStaffAddress(staff.getStaffAddress());
         return dto;
     }
 
