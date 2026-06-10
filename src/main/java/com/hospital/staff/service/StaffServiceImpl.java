@@ -69,11 +69,10 @@ public class StaffServiceImpl implements StaffService {
             throw new BusinessException(ErrorCode.DUPLICATE_STAFF_ID);
         }
 
-        if (!departmentRepository.existsById(request.getStaffDepartmentId())) {
-            throw new BusinessException(ErrorCode.BAD_REQUEST);
-        }
+        Department department = departmentRepository.findById(request.getStaffDepartmentId())
+                .orElseThrow(() -> new BusinessException(ErrorCode.BAD_REQUEST));
 
-        Staff staff = toStaffEntity(request);
+        Staff staff = toStaffEntity(request, department);
         staffRepository.save(staff);
     }
 
@@ -118,7 +117,7 @@ public class StaffServiceImpl implements StaffService {
         }
     }
 
-    private Staff toStaffEntity(StaffRegisterRequest request) {
+    private Staff toStaffEntity(StaffRegisterRequest request, Department department) {
         Staff staff = new Staff();
         staff.setStaffId(request.getStaffId().trim());
         staff.setStaffPassword(request.getStaffPassword());
@@ -129,7 +128,7 @@ public class StaffServiceImpl implements StaffService {
         staff.setStaffRankCode(request.getStaffRankCode());
         staff.setStaffPositionCode(request.getStaffPositionCode());
         staff.setStaffPhone(request.getStaffPhone().trim());
-        staff.setStaffExtensionNo(request.getStaffExtensionNo());
+        staff.setStaffExtensionNo(department.getStaffExtensionNo());
         staff.setStaffEmail(request.getStaffEmail());
         staff.setStaffHireDate(request.getStaffHireDate());
         staff.setStaffBirthDate(request.getStaffBirthDate());
@@ -189,6 +188,7 @@ public class StaffServiceImpl implements StaffService {
         DepartmentDto dto = new DepartmentDto();
         dto.setDepartmentId(department.getDepartmentId());
         dto.setDepartmentName(department.getDepartmentName());
+        dto.setStaffExtensionNo(department.getStaffExtensionNo());
         return dto;
     }
 }

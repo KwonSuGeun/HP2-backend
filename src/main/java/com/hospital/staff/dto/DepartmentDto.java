@@ -9,4 +9,5 @@ public class DepartmentDto {
 
     private String departmentId;
     private String departmentName;
+    private String staffExtensionNo;
 }

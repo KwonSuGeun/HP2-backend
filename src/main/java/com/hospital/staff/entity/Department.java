@@ -22,4 +22,7 @@ public class Department {
 
     @Column(name = "IS_ACTIVE")
     private String isActive;
+
+    @Column(name = "STAFF_EXTENSION_NO")
+    private String staffExtensionNo;
 }

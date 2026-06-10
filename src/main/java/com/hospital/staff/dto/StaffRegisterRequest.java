@@ -21,6 +21,7 @@ public class StaffRegisterRequest {
     private String staffRankCode;
     private String staffPositionCode;
     private String staffPhone;
+    /** 등록 시 부서(STAFF_DEPARTMENT) 내선번호로 자동 설정 — 요청값 무시 */
     private String staffExtensionNo;
     private String staffEmail;
     private LocalDate staffHireDate;
