@@ -9,4 +9,5 @@ public class StaffListRequest {
 
     private String dept;
     private String keyword;
+    private String staffStatus;
 }

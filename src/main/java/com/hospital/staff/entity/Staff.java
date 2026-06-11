@@ -34,6 +34,7 @@ public class Staff {
     @Column(name = "STAFF_ROLE_CODE")
     private String staffRoleCode;
 
+
     /**
      * STAFF.STAFF_DEPARTMENT_ID(FK) → STAFF_DEPARTMENT 연관관계 매핑 (N:1)
      * 연관관계의 주인. department를 set하면 FK 컬럼이 저장된다.

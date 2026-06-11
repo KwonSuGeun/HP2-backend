@@ -16,9 +16,11 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
            "WHERE (:dept IS NULL OR d.departmentId = :dept) " +
            "AND (:keyword IS NULL OR s.staffName LIKE CONCAT('%', :keyword, '%') " +
            "OR s.staffId LIKE CONCAT('%', :keyword, '%')) " +
+           "AND (:staffStatus IS NULL OR s.staffStatus = :staffStatus) " +
            "ORDER BY s.staffId ASC")
     List<Staff> searchStaffList(@Param("dept") String dept,
-                                @Param("keyword") String keyword);
+                                @Param("keyword") String keyword,
+                                @Param("staffStatus") String staffStatus);
 
     Optional<Staff> findByStaffIdAndStaffStatus(String staffId, String staffStatus);
 

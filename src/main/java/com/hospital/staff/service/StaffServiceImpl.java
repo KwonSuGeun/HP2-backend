@@ -40,7 +40,8 @@ public class StaffServiceImpl implements StaffService {
     public List<StaffDto> searchStaffList(StaffListRequest request) {
         return staffRepository.searchStaffList(
                         nullToEmpty(request.getDept()),
-                        nullToEmpty(request.getKeyword()))
+                        nullToEmpty(request.getKeyword()),
+                        nullToEmpty(request.getStaffStatus()))
                 .stream()
                 .map(this::toStaffDto)
                 .toList();
