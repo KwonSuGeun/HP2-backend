@@ -2,7 +2,10 @@ package com.hospital.staff.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,8 +34,13 @@ public class Staff {
     @Column(name = "STAFF_ROLE_CODE")
     private String staffRoleCode;
 
-    @Column(name = "STAFF_DEPARTMENT_ID")
-    private String staffDepartmentId;
+    /**
+     * STAFF.STAFF_DEPARTMENT_ID(FK) → STAFF_DEPARTMENT 연관관계 매핑 (N:1)
+     * 연관관계의 주인. department를 set하면 FK 컬럼이 저장된다.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STAFF_DEPARTMENT_ID")
+    private Department department;
 
     @Column(name = "STAFF_RANK_CODE")
     private String staffRankCode;

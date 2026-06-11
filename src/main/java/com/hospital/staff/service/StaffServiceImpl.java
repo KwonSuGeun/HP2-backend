@@ -39,12 +39,10 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public List<StaffDto> searchStaffList(StaffListRequest request) {
         return staffRepository.searchStaffList(
-                        nullToEmpty(request.getStaffId()),
                         nullToEmpty(request.getDept()),
-                        nullToEmpty(request.getStaffRankCode()),
                         nullToEmpty(request.getKeyword()))
                 .stream()
-                .map(row -> toStaffDto((Staff) row[0], (String) row[1]))
+                .map(this::toStaffDto)
                 .toList();
     }
 
@@ -53,11 +51,8 @@ public class StaffServiceImpl implements StaffService {
         Staff staff = staffRepository.findById(staffId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.STAFF_NOT_FOUND));
 
-        String departmentName = departmentRepository.findById(staff.getStaffDepartmentId())
-                .map(Department::getDepartmentName)
-                .orElse(null);
-
-        return toStaffDto(staff, departmentName);
+        // 연관관계 매핑 덕분에 부서를 별도 조회하지 않고 객체 탐색으로 가져온다 (LAZY 로딩)
+        return toStaffDto(staff);
     }
 
     @Override
@@ -124,7 +119,7 @@ public class StaffServiceImpl implements StaffService {
         staff.setStaffName(request.getStaffName().trim());
         staff.setStaffType(request.getStaffType());
         staff.setStaffRoleCode(resolveRoleCode(request));
-        staff.setStaffDepartmentId(request.getStaffDepartmentId());
+        staff.setDepartment(department);
         staff.setStaffRankCode(request.getStaffRankCode());
         staff.setStaffPositionCode(request.getStaffPositionCode());
         staff.setStaffPhone(request.getStaffPhone().trim());
@@ -163,14 +158,16 @@ public class StaffServiceImpl implements StaffService {
         return StringUtils.hasText(value) ? value : null;
     }
 
-    private StaffDto toStaffDto(Staff staff, String departmentName) {
+    private StaffDto toStaffDto(Staff staff) {
+        Department department = staff.getDepartment();
+
         StaffDto dto = new StaffDto();
         dto.setStaffId(staff.getStaffId());
         dto.setStaffName(staff.getStaffName());
         dto.setStaffType(staff.getStaffType());
         dto.setStaffRoleCode(staff.getStaffRoleCode());
-        dto.setStaffDepartmentId(staff.getStaffDepartmentId());
-        dto.setStaffDepartmentName(departmentName);
+        dto.setStaffDepartmentId(department != null ? department.getDepartmentId() : null);
+        dto.setStaffDepartmentName(department != null ? department.getDepartmentName() : null);
         dto.setStaffRankCode(staff.getStaffRankCode());
         dto.setStaffPositionCode(staff.getStaffPositionCode());
         dto.setStaffPhone(staff.getStaffPhone());

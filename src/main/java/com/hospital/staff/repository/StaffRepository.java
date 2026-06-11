@@ -10,17 +10,15 @@ import java.util.Optional;
 
 public interface StaffRepository extends JpaRepository<Staff, String> {
 
-    @Query("SELECT s, d.departmentName FROM Staff s " +
-           "LEFT JOIN Department d ON s.staffDepartmentId = d.departmentId " +
-           "WHERE (:staffId IS NULL OR s.staffId = :staffId) " +
-           "AND (:dept IS NULL OR s.staffDepartmentId = :dept) " +
-           "AND (:staffRankCode IS NULL OR s.staffRankCode = :staffRankCode) " +
-           "AND (:keyword IS NULL OR s.staffName LIKE CONCAT('%', :keyword, '%') OR s.staffId LIKE CONCAT('%', :keyword, '%')) " +
+    // JOIN FETCH: 부서 필터(d.departmentId) + DTO 부서명 + N+1 방지
+    @Query("SELECT s FROM Staff s " +
+           "LEFT JOIN FETCH s.department d " +
+           "WHERE (:dept IS NULL OR d.departmentId = :dept) " +
+           "AND (:keyword IS NULL OR s.staffName LIKE CONCAT('%', :keyword, '%') " +
+           "OR s.staffId LIKE CONCAT('%', :keyword, '%')) " +
            "ORDER BY s.staffId ASC")
-    List<Object[]> searchStaffList(@Param("staffId") String staffId,
-                                   @Param("dept") String dept,
-                                   @Param("staffRankCode") String staffRankCode,
-                                   @Param("keyword") String keyword);
+    List<Staff> searchStaffList(@Param("dept") String dept,
+                                @Param("keyword") String keyword);
 
     Optional<Staff> findByStaffIdAndStaffStatus(String staffId, String staffStatus);
 
