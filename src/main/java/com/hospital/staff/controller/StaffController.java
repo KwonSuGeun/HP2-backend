@@ -6,6 +6,7 @@ import com.hospital.staff.dto.StaffDto;
 import com.hospital.staff.dto.StaffListRequest;
 import com.hospital.staff.dto.StaffRegisterRequest;
 import com.hospital.staff.service.StaffService;
+import com.hospital.storage.S3ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -29,6 +33,7 @@ import java.util.List;
 public class StaffController {
 
     private final StaffService staffService;
+    private final S3ImageService s3ImageService;
 
     /** 직원 목록 조회 — 검색 조건은 RequestBody */
     @PostMapping("/search")
@@ -60,5 +65,11 @@ public class StaffController {
     public ApiResponse<Void> registerStaff(@RequestBody StaffRegisterRequest request) {
         staffService.registerStaff(request);
         return ApiResponse.success(null);
+    }
+
+    /** 직원 사진 업로드 — SeaweedFS 저장 후 Key 반환 */
+    @PostMapping("/image/upload")
+    public ApiResponse<String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+        return ApiResponse.success(s3ImageService.upload(file));
     }
 }
