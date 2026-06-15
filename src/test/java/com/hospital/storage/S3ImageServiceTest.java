@@ -32,7 +32,7 @@ class S3ImageServiceTest {
 
         int port = httpServer.getAddress().getPort();
         s3ImageService = new S3ImageService();
-        ReflectionTestUtils.setField(s3ImageService, "s3Endpoint", "http://localhost:" + port);
+        ReflectionTestUtils.setField(s3ImageService, "filerEndpoint", "http://localhost:" + port);
         ReflectionTestUtils.setField(s3ImageService, "bucketName", "emp_photo");
     }
 

@@ -14,10 +14,10 @@ public class S3ImageService {
 
     private final RestClient restClient = RestClient.create();
 
-    @Value("${seaweedfs.s3.endpoint}")
-    private String s3Endpoint;
+    @Value("${seaweedfs.filer.endpoint}")
+    private String filerEndpoint;
 
-    @Value("${seaweedfs.s3.bucket}")
+    @Value("${seaweedfs.filer.bucket}")
     private String bucketName;
 
     public String upload(MultipartFile file) throws IOException {
@@ -28,7 +28,7 @@ public class S3ImageService {
         String contentType = file.getContentType();
 
         restClient.put()
-                .uri(s3Endpoint + "/" + bucketName + "/" + key)
+                .uri(filerEndpoint + "/" + bucketName + "/" + key)
                 .contentType(MediaType.parseMediaType(contentType))
                 .body(file.getBytes())
                 .retrieve()

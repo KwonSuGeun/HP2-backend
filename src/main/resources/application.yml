@@ -42,8 +42,10 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
-# SeaweedFS S3 호환 API (S3ImageService 가 저장 위치 결정)
+# SeaweedFS Filer API (S3 8333 말고 Filer 8888 사용 — 실제 파일 저장·조회)
+# 팀 공용: SuGeun PC(192.168.1.128)에서 SeaweedFS Filer 실행 + 방화벽 8888 허용
+# SeaweedFS 돌리는 PC에서 백엔드도 같이 돌릴 때는 application-local.yml 에 localhost:8888 로 override
 seaweedfs:
-  s3:
-    endpoint: http://192.168.1.128:8333
+  filer:
+    endpoint: http://192.168.1.128:8888
     bucket: emp_photo
