@@ -33,7 +33,7 @@ class S3ImageServiceTest {
         int port = httpServer.getAddress().getPort();
         s3ImageService = new S3ImageService();
         ReflectionTestUtils.setField(s3ImageService, "s3Endpoint", "http://localhost:" + port);
-        ReflectionTestUtils.setField(s3ImageService, "bucketName", "emp-photo");
+        ReflectionTestUtils.setField(s3ImageService, "bucketName", "emp_photo");
     }
 
     @AfterEach
@@ -63,7 +63,7 @@ class S3ImageServiceTest {
 
         assertTrue(key.endsWith(".jpg"));
         assertEquals("PUT", requestMethod.get());
-        assertEquals("/emp-photo/" + key, requestPath.get());
+        assertEquals("/emp_photo/" + key, requestPath.get());
         assertEquals(jpeg.length, requestBodySize.get());
     }
 }

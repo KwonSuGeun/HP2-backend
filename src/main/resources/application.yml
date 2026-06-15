@@ -46,4 +46,4 @@ mybatis:
 seaweedfs:
   s3:
     endpoint: http://192.168.1.128:8333
-    bucket: emp-photo
+    bucket: emp_photo
