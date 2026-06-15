@@ -45,5 +45,5 @@ mybatis:
 # SeaweedFS S3 호환 API (S3ImageService 가 저장 위치 결정)
 seaweedfs:
   s3:
-    endpoint: http://localhost:8333
+    endpoint: http://192.168.1.128:8333
     bucket: emp-photo
