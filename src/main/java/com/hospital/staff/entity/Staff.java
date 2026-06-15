@@ -72,4 +72,8 @@ public class Staff {
 
     @Column(name = "STAFF_ADDRESS")
     private String staffAddress;
+
+    /** SeaweedFS S3 bucket 내 객체 key (예: a1b2c3d4.jpg) */
+    @Column(name = "STAFF_PHOTO_KEY")
+    private String staffPhotoKey;
 }

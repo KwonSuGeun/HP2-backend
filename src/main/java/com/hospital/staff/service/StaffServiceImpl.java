@@ -131,6 +131,9 @@ public class StaffServiceImpl implements StaffService {
         staff.setStaffLicenseNo(request.getStaffLicenseNo());
         staff.setStaffAddress(buildFullAddress(request));
         staff.setStaffStatus(STAFF_STATUS_ACTIVE);
+        if (StringUtils.hasText(request.getStaffPhotoKey())) {
+            staff.setStaffPhotoKey(request.getStaffPhotoKey().trim());
+        }
         return staff;
     }
 
@@ -179,6 +182,7 @@ public class StaffServiceImpl implements StaffService {
         dto.setStaffBirthDate(staff.getStaffBirthDate());
         dto.setStaffLicenseNo(staff.getStaffLicenseNo());
         dto.setStaffAddress(staff.getStaffAddress());
+        dto.setStaffPhotoKey(staff.getStaffPhotoKey());
         return dto;
     }
 

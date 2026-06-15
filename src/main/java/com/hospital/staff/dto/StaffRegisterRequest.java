@@ -34,4 +34,6 @@ public class StaffRegisterRequest {
     private String addressBase;
     /** 상세주소 */
     private String addressDetail;
+    /** SeaweedFS 업로드 후 반환된 객체 key — 미입력 시 NULL */
+    private String staffPhotoKey;
 }

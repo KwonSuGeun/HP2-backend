@@ -25,4 +25,5 @@ public class StaffDto {
     private LocalDate staffBirthDate;
     private String staffLicenseNo;
     private String staffAddress;
+    private String staffPhotoKey;
 }
